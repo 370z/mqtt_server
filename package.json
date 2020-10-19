@@ -1,16 +1,133 @@
 {
-  "name": "mqtt-server",
-  "version": "1.0.0",
-  "description": "test",
-  "main": "index.js",
-  "dependencies": {
-    "aedes": "^0.43.0",
-    "websocket-stream": "^5.5.2"
+  "name": "mqtt2mqtt",
+  "version": "1.2.5",
+  "bin": "bin/www",
+  "description": "Configurable Mqtt gateway",
+  "author": "Daniel Lando <daniel.sorridi@gmail.com>",
+  "private": false,
+  "pkg": {
+    "scripts": [
+      "lib/**/*.js",
+      "config/**/*.js",
+      "app.js"
+    ],
+    "assets": [
+      "views/**/*",
+      "static/**/*",
+      "dist/**/*"
+    ]
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack-dev-server --inline --progress --host 0.0.0.0 --config build/webpack.dev.conf.js",
+    "dev:server": "nodemon bin/www",
+    "start": "node bin/www",
+    "lint": "eslint --ext .js,.vue src",
+    "build": "node build/build.js",
+    "pkg": "sudo chmod +x package.sh && ./package.sh",
+    "changelog": "auto-changelog -p && git add CHANGELOG.md",
+    "release": "read -p 'GITHUB_TOKEN: ' GITHUB_TOKEN && export GITHUB_TOKEN=$GITHUB_TOKEN && release-it"
   },
-  "author": "",
-  "license": "ISC"
+  "release-it": {
+    "github": {
+      "release": true,
+      "assets": [
+        "pkg/*.zip"
+      ]
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "hooks": {
+      "after:bump": "npm run changelog",
+      "before:release": "./package.sh --release"
+    },
+    "npm": {
+      "publish": false
+    }
+  },
+  "auto-changelog": {
+    "unreleased": true,
+    "commitLimit": false,
+    "replaceText": {
+      "^-[\\s]*": ""
+    }
+  },
+  "dependencies": {
+    "aedes": "^0.42.5",
+    "app-root-path": "^2.2.1",
+    "axios": "^0.18.0",
+    "axios-progress-bar": "^1.2.0",
+    "babel-polyfill": "^6.26.0",
+    "bluebird": "^3.5.4",
+    "body-parser": "^1.18.3",
+    "connect-history-api-fallback": "^1.6.0",
+    "cookie-parser": "~1.4.3",
+    "cors": "^2.8.5",
+    "debug": "^4.1.1",
+    "ejs": "~2.5.7",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2",
+    "install": "^0.12.2",
+    "jsonfile": "^5.0.0",
+    "morgan": "~1.9.0",
+    "mqtt": "^4.1.0",
+    "mqtt-nedb-store": "^0.1.1",
+    "mqtt-wildcard": "^3.0.9",
+    "nedb": "^1.8.0",
+    "npm": "^6.9.0",
+    "pem": "^1.14.2",
+    "prismjs": "^1.16.0",
+    "uniqid": "^5.0.3",
+    "vue": "^2.5.2",
+    "vue-prism-editor": "^0.2.1",
+    "vue-router": "^3.0.1",
+    "vuetify": "^1.5.11",
+    "vuex": "^3.1.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^7.1.2",
+    "babel-core": "^6.22.1",
+    "babel-helper-vue-jsx-merge-props": "^2.0.3",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-plugin-transform-runtime": "^6.22.0",
+    "babel-plugin-transform-vue-jsx": "^3.5.0",
+    "babel-preset-env": "^1.3.2",
+    "babel-preset-stage-2": "^6.22.0",
+    "chalk": "^2.0.1",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.28.0",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "file-loader": "^1.1.4",
+    "friendly-errors-webpack-plugin": "^1.6.1",
+    "html-webpack-plugin": "^2.30.1",
+    "node-notifier": "^5.1.2",
+    "optimize-css-assets-webpack-plugin": "^3.2.0",
+    "ora": "^1.2.0",
+    "portfinder": "^1.0.13",
+    "postcss-import": "^11.0.0",
+    "postcss-loader": "^2.0.8",
+    "postcss-url": "^7.2.1",
+    "rimraf": "^2.6.0",
+    "semver": "^5.3.0",
+    "shelljs": "^0.7.6",
+    "uglifyjs-webpack-plugin": "^1.1.1",
+    "url-loader": "^0.5.8",
+    "vue-loader": "^13.3.0",
+    "vue-style-loader": "^3.0.1",
+    "vue-template-compiler": "^2.5.2",
+    "webpack": "^3.6.0",
+    "webpack-bundle-analyzer": "^2.9.0",
+    "webpack-dev-server": "^2.9.1",
+    "webpack-merge": "^4.1.0"
+  },
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 3.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }
